@@ -42,39 +42,40 @@ def scrapper_book(url_book):
 
 #scrapper une categorie
 
-url_category = 'https://books.toscrape.com/catalogue/category/books/travel_2/index.html'
+def scrapper_category(url_category):
 
-response_category = requests.get(url_category)
+    response_category = requests.get(url_category)
 
-soup_category = BeautifulSoup(response_category.text, 'lxml')
+    soup_category = BeautifulSoup(response_category.text, 'lxml')
 
-for article in soup_category.find_all('article'):
-    print(article)
-    '''
-    url_books = article.get('href')
-    url_whole = url_books.replace('../../..', 'http://books.toscrape.com/catalogue')  
-    scrapper_book(url_whole)
+    for article in soup_category.findAll('article'):    
+        a = article.find('a')
+        url_books = a.get('href')
+        url_whole = url_books.replace('../../..', 'http://books.toscrape.com/catalogue')  
+        scrapper_book(url_whole)
 
-
-print(scrapper_category('https://books.toscrape.com/catalogue/category/books/travel_2/index.html'))
 
 #scrapper tout le site
-'''
-url_site = 'https://books.toscrape.com/index.html'
 
-response_site = requests.get(url_site)
+def scrapper_site(url_site):
 
-soup_site = BeautifulSoup(response_site.text, 'lxml')
+    response_site = requests.get(url_site) 
+
+    soup_site = BeautifulSoup(response_site.text, 'lxml')
+
+    li_interessant = soup_site.findAll('li')[2]
+
+    for li in li_interessant.findAll('li'):
+        a = li.find('a')
+        url_categories = a.get('href')
+        url_final = ("https://books.toscrape.com/" + url_categories)
+        scrapper_category(url_final)
 
 
-
-#on a une def qui scrappe un livre
-#on prend cette fonction pour scrapper tous les livres d'une catégorie en l'applicant à tous les url des livres
-#on fait une fonction qui scrappe tous les livres d'une catégorie
-#on utilise cette fonction en l'applicant à tous les url des categories
-
-
+scrapper_site('https://books.toscrape.com/index.html')
 
 
 # créé un nouveau .csv sans que ca écrase le précédent à chaque boucle.
+
+
 
