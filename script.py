@@ -78,12 +78,3 @@ soup_site = BeautifulSoup(response_site.text, 'lxml')
 
 # créé un nouveau .csv sans que ca écrase le précédent à chaque boucle.
 
-#lire en .csv
-'''
-        import csv
-        with open('tab.csv', newline='') as f:
-            reader = csv.reader(f)
-            for row in reader:
-                print(row) 
-
-'''
