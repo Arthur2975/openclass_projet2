@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+import csv
 
 def scrapper_book(url_book):
 
@@ -37,7 +38,13 @@ def scrapper_book(url_book):
         category = soup.findAll('li')[2].text
         infos_book.append(category)
 
-        print(infos_book)
+        with open('tab_category.csv', 'w', newline='') as texte:
+            spamwriter = csv.writer(texte, delimiter=' ', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+
+            spamwriter.writerow(['product_page_url'] + ['universal_ product_code (upc)'] + ['title'] + ['price_including_tax'] + ['price_excluding_tax'] + ['number_available'] + ['product_description'] + ['category'] + ['review_rating'] + ['image_url'])
+            spamwriter.writerow([infos_book])
+
+        #print(infos_book)
 
 
 #scrapper une categorie
@@ -72,10 +79,11 @@ def scrapper_site(url_site):
         scrapper_category(url_final)
 
 
-scrapper_site('https://books.toscrape.com/index.html')
+#scrapper_site('https://books.toscrape.com/index.html')
 
 
 # créé un nouveau .csv sans que ca écrase le précédent à chaque boucle.
 
 
 
+    
