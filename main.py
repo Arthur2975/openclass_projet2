@@ -2,6 +2,8 @@ import requests
 from bs4 import BeautifulSoup
 import csv
 
+
+
 #scraper livre
 
 def scrapper_livre (url_book):
@@ -67,6 +69,7 @@ def scrapper_livre (url_book):
         print(infos_book)
 
 
+
 #scraper catégorie
 
 def scrapper_category(url_category):
@@ -85,9 +88,12 @@ def scrapper_category(url_category):
         url_incomplete_each_book = a.get('href')
         url_complete_each_book = url_incomplete_each_book.replace('../../..', 'http://books.toscrape.com/catalogue')
         scrapper_livre(url_complete_each_book)
+    
 
 
-def csv():
+#extraire dans un .csv
+
+def csv(infos_book, file_name="record.csv"):
 
     # exporter résultat dans .csv
 
@@ -95,15 +101,28 @@ def csv():
         
         fieldnames = ['product_page_url', 'universal_ product_code (upc)', 'title', 'price_including_tax', 'price_excluding_tax', 'number_available', 'product_descriptioncategory', 'review_rating', 'image_url']
 
-        thewriter = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        thewriter = csv.DictWriter(csvfile, fieldnames=fieldnames, quotechar='""', quoting=csv.QUOTE_ALL)
 
-        thewriter.writeheader()
-
+        writer.writeheader()
         for info in infos_book:
-            thewriter.writerow({''})
+            writer.writerow(info)
+
+
+
+# def Nico_write_to_csv(list_dict_data, file_name="record.csv"):
+#     with open(file_name, mode='w') as csv_file:
+#         fieldnames = list_dict_data[0].keys()
+#         writer = csv.DictWriter(csv_file, fieldnames=fieldnames,quotechar='"', quoting=csv.QUOTE_ALL)
+
+#         writer.writeheader()
+#         for dict_data in list_dict_data:
+#             writer.writerow(dict_data)
+# [4:36 PM]
+# # [{"cle1","cle2"},{}]
 
 
 #scraper site
+
 
 if __name__ == 'main':
 
@@ -126,8 +145,6 @@ if __name__ == 'main':
         url_complete_categories = "http://books.toscrape.com/" + url_incomplete_categories
         scrapper_category(url_complete_categories)
 
-scrapper_livre('https://books.toscrape.com/catalogue/a-light-in-the-attic_1000/index.html')
 
 
-# variable de 3 lettres, exemple a devient link
 # faire dico au lieu des liste
