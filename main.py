@@ -1,7 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-import csv
-
+import csv342 as csv
 
 
 #scraper livre
@@ -82,10 +81,10 @@ def scrapper_category(url_category):
         a = article.find_all('a')[0]
         url_incomplete_each_book = a.get('href')
         url_complete_each_book = url_incomplete_each_book.replace('../../..', 'http://books.toscrape.com/catalogue')
-        infos_book = scrapper_livre(url_complete_each_book)
-        list_book.append(infos_book)
-    
-    csv(list_book, url_category)
+        list_book.append(scrapper_livre(url_complete_each_book))
+
+    infos_book = list_book[0]
+    export_csv(list_book=list_book, category_name=infos_book['category'])
 
 #scraper site
 
@@ -111,9 +110,10 @@ def main():
         scrapper_category(url_complete_categories)
 
 
-def csv(list_book, category_name):
 
-    with open('category_name.csv', 'w') as csvfile:
+def export_csv(list_book, category_name):
+
+    with open(str(category_name) + '.csv', 'w') as csvfile:
         fieldnames = ['url_book', 'upc', 'title', 'price_with_tax', 'price_without_tax', 'number_available', 'product_description', 'category', 'review_rating', 'image_url']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames, quotechar='"', quoting=csv.QUOTE_ALL)
         
@@ -123,5 +123,6 @@ def csv(list_book, category_name):
 
 
 
-if __name__ == 'main':
+if __name__ == '__main__':
     main()
+
