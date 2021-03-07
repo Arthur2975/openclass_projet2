@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import csv342 as csv
+import urllib.request
 
 
 #scraper livre
@@ -59,6 +60,8 @@ def scrapper_livre (url_book):
         image_url_incomplete = balise_img.get('src')
         image_url = image_url_incomplete.replace('../..', 'http://books.toscrape.com')
         infos_book['image_url'] = image_url
+        title_1 = title.text.replace('\n', '').replace(' ', '').replace('|', '').replace("'", '')
+        urllib.request.urlretrieve(image_url, 'images/' + str(title_1) + '.jpg')
 
         return(infos_book)
 
@@ -83,8 +86,11 @@ def scrapper_category(url_category):
         url_complete_each_book = url_incomplete_each_book.replace('../../..', 'http://books.toscrape.com/catalogue')
         list_book.append(scrapper_livre(url_complete_each_book))
 
-    infos_book = list_book[0]
-    export_csv(list_book=list_book, category_name=infos_book['category'])
+    #exporter au format .csv
+
+    export_csv(list_book=list_book)
+
+    #creer une liste de toutes les url des images/ creer une boucle for image in liste_image 
 
 #scraper site
 
@@ -111,9 +117,11 @@ def main():
 
 
 
-def export_csv(list_book, category_name):
+def export_csv(list_book):
+    infos_book = list_book[0]
+    category_name = infos_book['category']
 
-    with open(str(category_name) + '.csv', 'w') as csvfile:
+    with open('categories/' + str(category_name) + '.csv', 'w') as csvfile:
         fieldnames = ['url_book', 'upc', 'title', 'price_with_tax', 'price_without_tax', 'number_available', 'product_description', 'category', 'review_rating', 'image_url']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames, quotechar='"', quoting=csv.QUOTE_ALL)
         
@@ -122,7 +130,7 @@ def export_csv(list_book, category_name):
             writer.writerow(book)
 
 
-
 if __name__ == '__main__':
     main()
+
 
