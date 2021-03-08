@@ -7,9 +7,11 @@ import urllib.request
 #scraper livre
 
 def scrapper_livre (url_book):
-    
-    # Cette fonction prend en argument l'url de la page d'un livre du site books.toscrape.com et exrait les information relatives à ce livre contenues
-    # dans le code HTML de la page
+
+    '''    
+    Cette fonction prend en argument l'url de la page d'un livre du site books.toscrape.com et exrait les information relatives à ce livre contenues
+    dans le code HTML de la page
+    '''
 
     response = requests.get(url_book)
 
@@ -71,8 +73,10 @@ def scrapper_livre (url_book):
 
 def scrapper_category(url_category):
 
-    # Cette fonction prend en argument l'url de la page d'une catégorie de livre du site 'books.toscrape.com' et exrait les url de tous les livres
-    #de la catégorie. Puis elle applique la fonction scrapper_livre à chaque url pour extraire les informations relatives à tous les livres de cette catégorie
+    '''
+    Cette fonction prend en argument l'url de la page d'une catégorie de livre du site 'books.toscrape.com' et exrait les url de tous les livres
+    de la catégorie. Puis elle applique la fonction scrapper_livre à chaque url pour extraire les informations relatives à tous les livres de cette catégorie
+    '''
 
     response_category = requests.get(url_category)
 
@@ -94,12 +98,13 @@ def scrapper_category(url_category):
 
 #scraper site
 
-    #les lignes de codes ci après permettent d'extraire les url de chaque catégorie de livre du site 'books.tocrape.com' et d'appliquer la fonction
-    #scraper_catégorie qui elle même applique à chaque url de livre la fonction scraper_livre. Le résultat étant d'extraire toutes les informations relatives
-    #à tous les livres de toutes les catégories du site.
-
-
 def main():
+
+    '''
+    les lignes de codes ci après permettent d'extraire les url de chaque catégorie de livre du site 'books.tocrape.com' et d'appliquer la fonction
+    scraper_catégorie qui elle même applique à chaque url de livre la fonction scraper_livre. Le résultat étant d'extraire toutes les informations relatives
+    à tous les livres de toutes les catégories du site.
+    '''
 
     url_site = 'https://books.toscrape.com/index.html'
 
@@ -118,6 +123,11 @@ def main():
 
 
 def export_csv(list_book):
+
+    '''
+    fonction permettant de créer des fichers .csv au nom des categories de livre et comprenant pour chaque ligne un livre et les informations associées
+    '''
+
     infos_book = list_book[0]
     category_name = infos_book['category']
 
