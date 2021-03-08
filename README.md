@@ -10,6 +10,8 @@ Les données extraites sont alors exportées vers des fichers .csv. Un fichier p
 
 # Demarrage
 #Installez votre environnement virtuel contenant les modules cités dans les fichier requirements.txt, à savoir BS4, Requests et csv342
+#source env/bin/activate
+#pip install -r requirements.txt
 Importez le repository github > git clone https://github.com/Arthur2975/openclass_projet2.git
 Lancez le script.
 
